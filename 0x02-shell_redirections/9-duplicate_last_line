@@ -1,2 +1,2 @@
 #!/bin/bash
-tail -1 iacta | tee -a iacta
+echo -e "$(tail -n 1 iacta)\n$(tail -n 1 iacta)" >> iacta
