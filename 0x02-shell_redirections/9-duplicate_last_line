@@ -1,2 +1,2 @@
 #!/bin/bash
-echo -e "$(tail -n 1 iacta)\n$(tail -n 1 iacta)" >> iacta
+tail --lines=1 iacta >> iacta
