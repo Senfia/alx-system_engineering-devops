@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#a Bash script that displays Best School 10 timess
+
+i=0
+while [ $i -le 99 ]
+do
+	i=$(( i + 1 ))
+	if ((i % 15 == 0)) ; then
+       echo "FizzBuzz"
+    elif ((i % 5 == 0)); then
+       echo "Buzz"
+    elif ((i % 3 == 0)); then
+       echo "Fizz"
+    else
+       echo "$i"
+    fi
+done
