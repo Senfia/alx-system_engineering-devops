@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#a Bash script that displays Best School 10 timess
+#print FizzBuzz using bash
 
 i=0
 while [ $i -le 99 ]
