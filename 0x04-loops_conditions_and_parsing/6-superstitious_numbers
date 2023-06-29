@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# uses the while loop and case statments to display text.
+
+i=0
+while [ $i -le 19 ]
+do
+	i=$(( i + 1 ))
+	echo $i
+	case $i in
+		4 )
+		echo "bad luck from China"
+		;;
+		9 )
+		echo "bad luck from China"
+		;;
+	 	17 )
+		echo "bad luck from China"
+		;;
+	esac
+done
