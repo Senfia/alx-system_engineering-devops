@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+file=/var/run/myscript.pid
+echo $$ >> $file
+function delfile {
+    rm $file
+    exit
+}
+trap 'echo Y U no love me?!; delfile' SIGINT
+trap 'echo I hate the kill command; delfile' SIGTERM SIGQUIT
+while :; do
+    echo "To infinity and beyond"
+    sleep 2
+done
