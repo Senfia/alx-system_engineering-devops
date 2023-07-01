@@ -6,7 +6,7 @@ run_status=$(pgrep -f ./manage_my_process)
 start() {
     if [ -n "$run_status" ]; 
     then
-    :
+    	:
     else
 	./manage_my_process & pgrep -f ./manage_my_process >> $file
 	echo "manage_my_process started"
@@ -17,7 +17,7 @@ start() {
 stop() {
     if [ -z "$run_status" ]; 
     then
-	echo "manage_my_process already stopped"
+    	:
     else
 	pkill -f ./manage_my_process
 	rm $file
@@ -29,7 +29,7 @@ stop() {
 restart() {
     if [ -z "$run_status" ]; 
     then
-	echo "manage_my_process not started"
+	:
     else
 	pkill -f ./manage_my_process
 	rm $file
