@@ -6,7 +6,7 @@ run_status=$(pgrep -f ./manage_my_process)
 start() {
     if [ -n "$run_status" ]; 
     then
-	echo "manage_my_process already running"
+    :
     else
 	./manage_my_process & pgrep -f ./manage_my_process >> $file
 	echo "manage_my_process started"
