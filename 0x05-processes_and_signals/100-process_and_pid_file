@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# this script creates and file and echo some text when you try terminating the process and finally deletes the file.
 
 file=/var/run/myscript.pid
 echo $$ >> $file
