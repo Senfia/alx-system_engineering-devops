@@ -1,3 +1,3 @@
 #!/usr/bin/env ruby
 
-puts ARGV[0].match(/^h.n$/i).join
+puts ARGV[0].scan(/(^h|n$)/).join
