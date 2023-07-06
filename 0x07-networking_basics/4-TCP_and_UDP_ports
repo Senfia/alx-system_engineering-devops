@@ -1,10 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# displays listening ports.
 
-ss -tln | awk 'NR>1 {print $4,$NF}' | while read -r line; do
-    port=$(echo "$line" | awk '{split($1, a, ":"); print a[length(a)]}')
-    pid=$(echo "$line" | awk '{split($NF, a, ","); print a[1]}')
-    #program=$(ps -o pid, comm="$pid")
-
-    echo "Port: $port   PID: $pid"
-done
-
+netstat -lp
