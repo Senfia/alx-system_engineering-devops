@@ -1,4 +1,7 @@
 # Install and configure an Nginx server with the following requirements:
+# configure
+# configure
+# configure
 
 
 package { 'nginx':
