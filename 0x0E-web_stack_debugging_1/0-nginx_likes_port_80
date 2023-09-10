@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 # Nginx installation from listening on port 80.
+# Nginx installation from listening on port 80.
+# tool you need, start and destroy as many containers
+# issue. Then, write a Bash script with the minimum
+# automate
 
 sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
 sudo service nginx restart
