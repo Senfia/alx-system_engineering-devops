@@ -1,18 +1,25 @@
 #!/usr/bin/env bash
 # Configure domain zone so that the subdomain www and display information about subdomains
-print_line()
-{
-	printf "The subdomain %s is a " "$2"
-	dig "$2.$1" | grep -A1 'ANSWER SECTION:' | awk 'FNR == 2 {printf "%s ", $4}'
-	printf "record and points to "
-	dig "$2.$1" | grep -A1 'ANSWER SECTION:' | awk 'FNR == 2 {print $5}'
+function dig_all {
+    printf "The subdomain www is a "
+    dig www."$1" | awk 'c&&c--;/ANSWER SECTION:/{c=1}' | awk '{printf "%s record and points to %s\n", $4, $5}'
+    printf "The subdomain lb-01 is a "
+    dig lb-01."$1" | awk 'c&&c--;/ANSWER SECTION:/{c=1}' | awk '{printf "%s record and points to %s\n", $4, $5}'
+    printf "The subdomain web-01 is a "
+    dig web-01."$1" | awk 'c&&c--;/ANSWER SECTION:/{c=1}' | awk '{printf "%s record and points to %s\n", $4, $5}'
+    printf "The subdomain web-02 is a "
+    dig web-02."$1" | awk 'c&&c--;/ANSWER SECTION:/{c=1}' | awk '{printf "%s record and points to %s\n", $4, $5}'
 }
 
-if [ -z "$2" ]; then
-     	for f in "www" "lb-01" "web-01" "web-02"
-	do
-	    print_line "$1" "$f"
-	done
-else
-	print_line "$1" "$2"
-fi
+case "$#" in
+    0)
+        echo "Usage: domain subdomain"
+	;;
+    1)
+        dig_all "$@"
+	;;
+    2)
+	printf "The subdomain %s is a " "$2"
+	dig "$2.$1" | awk 'c&&c--;/ANSWER SECTION:/{c=1}' | awk '{printf "%s record and points to %s\n", $4, $5}'
+	;;
+esac
