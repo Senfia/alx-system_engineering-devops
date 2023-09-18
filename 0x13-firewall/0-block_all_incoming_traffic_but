@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#firewall configuration for a server instance
+
+sudo ufw status #checkt firewall status
+
+sudo ufw allow 22/tcp #allow traffic on port 22(SSH)
+
+sudo ufw allow 443/tcp #allow traffic on port 443(HTTPS)
+
+sudo ufw allow 80/tcp #allow traffic on port 80(HTTp)
+
+sudo ufw enable #enable firewall
