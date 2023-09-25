@@ -8,28 +8,22 @@ import sys
 
 
 if __name__ == "__main__":
-    try:
-        employee_id = int(sys.argv[1])
-    except (TyepError, Valuerror):
-        sys.exit()
-    req = requests.get("https://jsonplaceholder.typicode.com/todos")
-    complete = 0
-    total = 0
-    done_tasks = []
-    for task in req.json():
-        if task.get('userId') == employee_id:
-            total += 1
-            if task.get('complete'):
-                complete += 1
-                done_tasks.append(task.get('title'))
+    url = 'https://jsonplaceholder.typicode.com/'
 
-    req = requests.get("https://jsonplaceholder.typicode.com/users/")
-    for employee in req.json():
-        if employee.get('id') == employee_id:
-            name = employee.get('name')
-            break
+    user = '{}users/{}'.format(url, sys.argv[1])
+    res = requests.get(user)
+    json_out = res.json()
+    print("Employee {} is done with tasks"
+        .format(json_out.get('name')), end="")
 
-    print("Employee {:s} is done with tasks({:d}/{:d}):".format(
-        name, complete, total))
-    for task in done_tasks:
-        print("\t {:s}".format(task))
+    todos = '{}todos?userId={}'.format(url, sys.argv[1])
+    res = requests.get(todos)
+    tasks = res.json()
+    t_task = []
+    for task in tasks:
+        if task.get('completed') is True:
+            t_task.append(task)
+
+    print("({}/{}):".format(len(t_task), len(tasks)))
+    for task in t_task:
+        print("\t {}".format(task.get("title")))
