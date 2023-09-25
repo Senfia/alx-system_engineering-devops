@@ -10,25 +10,29 @@ import sys
 
 
 if __name__ == "__main__":
-    try:
-        employee_id = int(sys.argv[1])
-    except (TyepError, Valuerror):
-        print("Given id is invalid")
-        sys.exit()
-    req = requests.get("https://jsonplaceholder.typicode.com/todos")
-    tasks = []
-    for task in req.json():
-        if task.get('userId') == employee_id:
-            tasks.append(task)
+    url = 'https://jsonplaceholder.typicode.com/'
 
-    req = requests.get("https://jsonplaceholder.typicode.com/users/")
-    for employee in req.json():
-        if employee.get('id') == employee_id:
-            name = employee.get('name')
-            break
-    file_name = "{:d}.csv".format(employee_id)
-    with open(file_name, 'w') as f:
-        for task in tasks:
-            f.write('"' + str(employee_id) + '"' + "," + '"' + name + '"' +
-                    "," + '"' + str(task.get('completed')) + '"' + "," +
-                    '"' + task.get('title') + '"' + "\n")
+    userid = sys.argv[1]
+    user = '{}users/{}'.format(url, userid)
+    res = requests.get(user)
+    json_o = res.json()
+    name = json_o.get('username')
+
+    todos = '{}todos?userId={}'.format(url, userid)
+    res = requests.get(todos)
+    tasks = res.json()
+    t_task = []
+    for task in tasks:
+        t_task.append([userid,
+                       name,
+                       task.get('completed'),
+                       task.get('title')])
+
+    filename = '{}.csv'.format(userid)
+    with open(filename, mode='w') as employee_file:
+        employee_writer = csv.writer(employee_file,
+                                     delimiter=',',
+                                     quotechar='"',
+                                     quoting=csv.QUOTE_ALL)
+        for task in t_task:
+            employee_writer.writerow(task)
