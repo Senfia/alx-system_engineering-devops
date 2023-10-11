@@ -7,39 +7,29 @@ import requests
 import sys
 
 
-def add_title(hot_list, hot_posts):
-    """ Adds item to a list """
-    if len(hot_posts) == 0:
-        return
-    hot_list.append(hot_posts[0]['data']['title'])
-    hot_posts.pop(0)
-    add_title(hot_list, hot_posts)
-
-
-def recurse(subreddit, hot_list=[], after=None):
-    """ Calls to Reddit API """
-    u_agent = 'Mozilla/5.0'
-    headers = {
-        'User-Agent': u_agent
-    }
-
-    params = {
-        'after': after
-    }
-
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    res = requests.get(url,
-                       headers=headers,
-                       params=params,
-                       allow_redirects=False)
-
-    if res.status_code != 200:
+def recurse(subreddit, hot_list=[], after=""):
+    """
+    Queries the Reddit API
+    """
+    if subreddit is None:
         return None
+    if len(hot_list) == 0:
+        url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    else:
+        url = "https://www.reddit.com/r/{}/hot.json?limit=500&after={}".format(
+            subreddit, after)
+    r = requests.get(url, headers={'user-agent': 'Chrome'})
+    if r.status_code is not 200:
+        return None
+    children = r.json()['data']['children']
+    if children == []:
+        return None
+    for child in children:
+        hot_list.append(child['data']['title'])
 
-    dic = res.json()
-    ht_posts = dic['data']['children']
-    add_title(hot_list, ht_posts)
-    after = dic['data']['after']
-    if not after:
-        return hot_list
-    return recurse(subreddit, ht_list=hot_list, after=after)
+    current_after = r.json()['data']['after']
+
+    if current_after is None:
+        return(hot_list)
+
+    return recurse(subreddit, hot_list, current_after)
