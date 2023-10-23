@@ -16,10 +16,10 @@ server {
    #     proxy_pass http://127.0.0.1:5000/airbnb-onepage/;
    # }
 
-    location / {
+    location /airbnb-onepage/ {
         include proxy_params;
        # proxy_pass http://unix:/home/ubuntu/alx/AirBnB_clone_v2/hbnb.sock;
-        proxy_pass http://localhost:5000;
+        proxy_pass http://localhost:5000/airbnb-onepage/;
     }
 
     # 404 error page
